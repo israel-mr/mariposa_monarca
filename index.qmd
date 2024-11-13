@@ -1,0 +1,67 @@
+---
+title: ""
+format: 
+  html:
+    theme: bslib
+runtime: shiny
+---
+ 
+ 
+```{r include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+setwd("C:/Users/israel.monjaraz/OneDrive - Food and Agriculture Organization/Documentos/ProjectCodes/r/mariposa-monarca/")
+
+
+source("libs.R")
+#archivos de mapa
+source("views/map_ui.R", local = TRUE)    
+source("views/map_server.R", local = TRUE)
+
+
+
+df_monarca <- read_excel("data/sample1_monarca.xlsx")  
+
+
+```
+ 
+ 
+
+```{r echo=FALSE}
+ui <- bootstrapPage(
+  navbarPage(
+    theme = shinytheme("simplex"), 
+    collapsible = TRUE,
+    HTML('<a style="text-decoration:none;cursor:default;color:#FFFFFF;" class="active" href="#">Mariposa monarca</a>'), 
+    id="nav",
+    windowTitle = "Danaus plexippus",
+    
+    map_ui(), # innterfaz para mapa nteractivo
+    
+    
+    
+    tabPanel("Análisis de datos"),
+    tabPanel("Datos"),
+    tabPanel("Propósito del sitio web")
+  )
+)
+
+```
+
+ 
+
+```{r echo=FALSE}
+server <- function(input, output, session) {
+  
+    map_server(input, output, session)
+
+  
+  
+  
+}
+
+```
+
+
+```{r echo=FALSE}
+shinyApp(ui, server)
+```
